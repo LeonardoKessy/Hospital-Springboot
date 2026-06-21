@@ -32,9 +32,9 @@ public class Doctor {
         }
         this.medicalLicense = medicalLicense;
 
-        if (specialties != null) {
-            this.specialties.addAll(specialties);
-        }
+        if (specialties == null || specialties.isEmpty())
+            throw new IllegalArgumentException("Specialties cannot be null or empty");
+        this.specialties.addAll(specialties);
 
         this.active = true;
     }

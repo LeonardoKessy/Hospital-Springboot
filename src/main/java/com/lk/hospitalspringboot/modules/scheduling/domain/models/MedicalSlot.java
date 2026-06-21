@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Getter
 public class MedicalSlot {
-    private final Long id;
+    private final UUID id;
     private final UUID doctorId;
     private final MedicalSpecialty specialty;
     private final Instant appointmentTime;
@@ -19,7 +19,7 @@ public class MedicalSlot {
     public static final int MAXIMUM_DURATION_IN_MINUTES = 120;
 
     public MedicalSlot(
-            Long id,
+            UUID id,
             UUID doctorId,
             MedicalSpecialty specialty,
             Instant appointmentTime,
@@ -37,7 +37,7 @@ public class MedicalSlot {
     }
 
     public static MedicalSlot create(
-            Long id,
+            UUID id,
             UUID doctorId,
             MedicalSpecialty medicalSpecialty,
             Instant appointmentTime,

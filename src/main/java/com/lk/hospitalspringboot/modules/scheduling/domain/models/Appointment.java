@@ -14,7 +14,7 @@ public class Appointment {
     private final UUID id;
     private final UUID patientId;
     private final UUID doctorId;
-    private final Long slotId;
+    private final UUID slotId;
     private final MedicalSpecialty specialty;
     private final Instant appointmentTime;
     private final int durationInMinutes;
@@ -32,7 +32,7 @@ public class Appointment {
         UUID id,
         UUID patientId,
         UUID doctorId,
-        Long slotId,
+        UUID slotId,
         MedicalSpecialty medicalSpecialty,
         Instant appointmentTime,
         int durationInMinutes,
