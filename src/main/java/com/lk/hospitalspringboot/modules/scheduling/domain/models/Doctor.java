@@ -5,6 +5,7 @@ import com.lk.hospitalspringboot.modules.scheduling.domain.valueobjects.MedicalS
 import com.lk.hospitalspringboot.modules.scheduling.domain.valueobjects.NationalIdentifier;
 import lombok.Getter;
 
+import java.time.ZoneId;
 import java.util.*;
 
 @Getter

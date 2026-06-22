@@ -1,0 +1,5 @@
+# Flyway DB connection config
+
+flyway.url=
+flyway.user=
+flyway.password=
