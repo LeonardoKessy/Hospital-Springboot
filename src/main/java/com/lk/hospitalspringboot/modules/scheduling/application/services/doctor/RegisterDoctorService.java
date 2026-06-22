@@ -1,12 +1,11 @@
 package com.lk.hospitalspringboot.modules.scheduling.application.services.doctor;
 
-import com.github.f4b6a3.uuid.UuidCreator;
 import com.lk.hospitalspringboot.modules.scheduling.application.ports.in.doctor.commands.RegisterDoctorCommand;
 import com.lk.hospitalspringboot.modules.scheduling.application.ports.in.doctor.commands.RegisterDoctorUseCase;
 import com.lk.hospitalspringboot.modules.scheduling.application.ports.out.DoctorRepositoryPort;
 import com.lk.hospitalspringboot.modules.scheduling.domain.models.Doctor;
-import com.lk.hospitalspringboot.modules.scheduling.domain.valueobjects.HumanName;
-import com.lk.hospitalspringboot.modules.scheduling.domain.valueobjects.NationalIdentifier;
+import com.lk.hospitalspringboot.modules.shared.domain.valueobjects.HumanName;
+import com.lk.hospitalspringboot.modules.shared.domain.valueobjects.NationalIdentifier;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 

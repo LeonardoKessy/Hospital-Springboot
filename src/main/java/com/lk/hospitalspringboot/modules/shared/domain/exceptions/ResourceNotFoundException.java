@@ -1,6 +1,6 @@
 package com.lk.hospitalspringboot.modules.shared.domain.exceptions;
 
-import com.lk.hospitalspringboot.modules.shared.domain.ResourceType;
+import com.lk.hospitalspringboot.modules.shared.domain.enums.ResourceType;
 import lombok.Getter;
 
 @Getter

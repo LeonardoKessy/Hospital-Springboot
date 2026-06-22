@@ -1,4 +1,4 @@
-package com.lk.hospitalspringboot.modules.scheduling.domain.valueobjects;
+package com.lk.hospitalspringboot.modules.shared.domain.enums;
 
 public enum MedicalSpecialty {
     CARDIOLOGY,

@@ -1,7 +1,6 @@
 package com.lk.hospitalspringboot.modules.scheduling.application.ports.in.doctor.responses;
 
-import com.lk.hospitalspringboot.modules.scheduling.domain.valueobjects.HumanName;
-import com.lk.hospitalspringboot.modules.scheduling.domain.valueobjects.MedicalSpecialty;
+import com.lk.hospitalspringboot.modules.shared.domain.enums.MedicalSpecialty;
 
 import java.util.Set;
 import java.util.UUID;

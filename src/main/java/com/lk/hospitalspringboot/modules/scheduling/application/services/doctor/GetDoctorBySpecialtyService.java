@@ -5,7 +5,7 @@ import com.lk.hospitalspringboot.modules.scheduling.application.ports.in.doctor.
 import com.lk.hospitalspringboot.modules.scheduling.application.ports.mappers.DoctorMapper;
 import com.lk.hospitalspringboot.modules.scheduling.application.ports.out.DoctorRepositoryPort;
 import com.lk.hospitalspringboot.modules.scheduling.domain.models.Doctor;
-import com.lk.hospitalspringboot.modules.scheduling.domain.valueobjects.MedicalSpecialty;
+import com.lk.hospitalspringboot.modules.shared.domain.enums.MedicalSpecialty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,4 +1,4 @@
-package com.lk.hospitalspringboot.modules.shared.domain;
+package com.lk.hospitalspringboot.modules.shared.domain.enums;
 
 public enum ResourceType {
     DOCTOR,

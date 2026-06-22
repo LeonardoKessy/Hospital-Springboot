@@ -1,14 +1,10 @@
 package com.lk.hospitalspringboot.modules.scheduling.domain.models;
 
-import com.lk.hospitalspringboot.modules.scheduling.domain.valueobjects.HumanAddress;
-import com.lk.hospitalspringboot.modules.scheduling.domain.valueobjects.HumanName;
-import com.lk.hospitalspringboot.modules.scheduling.domain.valueobjects.NationalIdentifier;
-import lombok.AllArgsConstructor;
+import com.lk.hospitalspringboot.modules.shared.domain.valueobjects.HumanAddress;
+import com.lk.hospitalspringboot.modules.shared.domain.valueobjects.HumanName;
+import com.lk.hospitalspringboot.modules.shared.domain.valueobjects.NationalIdentifier;
 import lombok.Getter;
-import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 

@@ -1,4 +1,4 @@
-package com.lk.hospitalspringboot.modules.scheduling.domain.valueobjects;
+package com.lk.hospitalspringboot.modules.shared.domain.valueobjects;
 
 public record HumanName(
         String firstName,

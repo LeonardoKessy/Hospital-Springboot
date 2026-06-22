@@ -1,11 +1,10 @@
 package com.lk.hospitalspringboot.modules.scheduling.domain.models;
 
-import com.lk.hospitalspringboot.modules.scheduling.domain.valueobjects.HumanName;
-import com.lk.hospitalspringboot.modules.scheduling.domain.valueobjects.MedicalSpecialty;
-import com.lk.hospitalspringboot.modules.scheduling.domain.valueobjects.NationalIdentifier;
+import com.lk.hospitalspringboot.modules.shared.domain.valueobjects.HumanName;
+import com.lk.hospitalspringboot.modules.shared.domain.enums.MedicalSpecialty;
+import com.lk.hospitalspringboot.modules.shared.domain.valueobjects.NationalIdentifier;
 import lombok.Getter;
 
-import java.time.ZoneId;
 import java.util.*;
 
 @Getter
