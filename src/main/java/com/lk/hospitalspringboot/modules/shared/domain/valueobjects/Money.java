@@ -2,6 +2,7 @@ package com.lk.hospitalspringboot.modules.shared.domain.valueobjects;
 
 import com.lk.hospitalspringboot.modules.shared.domain.enums.ValidCurrencies;
 import com.lk.hospitalspringboot.modules.shared.domain.exceptions.BusinessRuleException;
+import com.lk.hospitalspringboot.modules.shared.domain.exceptions.InputValidationException;
 import com.lk.hospitalspringboot.modules.staff.domain.exceptions.StaffBusinessRules;
 
 import java.math.BigDecimal;
@@ -12,10 +13,10 @@ public record Money(
 ) {
     public Money {
         if (amount == null) {
-            throw new IllegalArgumentException("Amount must not be null");
+            throw new InputValidationException("amount", "Amount must not be null");
         }
         if (currency == null) {
-            throw new IllegalArgumentException("Currency cannot be null");
+            throw new InputValidationException("currency", "Currency cannot be null");
         }
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new BusinessRuleException(StaffBusinessRules.NO_NEGATIVE_SALARY);
