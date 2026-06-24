@@ -1,14 +1,16 @@
 package com.lk.hospitalspringboot.modules.shared.domain.exceptions;
 
 import com.lk.hospitalspringboot.modules.shared.domain.interfaces.BusinessRuleErrorCode;
+import lombok.Getter;
 
+@Getter
 public class BusinessRuleException extends RuntimeException {
-    private final BusinessRuleErrorCode errorCode;
+    private final String code;
 
     public BusinessRuleException(
             BusinessRuleErrorCode errorCode
     ) {
         super(errorCode.getMessage());
-        this.errorCode = errorCode;
+        this.code = errorCode.getCode();
     }
 }

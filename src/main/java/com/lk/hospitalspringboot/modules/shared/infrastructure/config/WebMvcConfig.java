@@ -1,4 +1,4 @@
-package com.lk.hospitalspringboot.modules.shared.config;
+package com.lk.hospitalspringboot.modules.shared.infrastructure.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RestController;
