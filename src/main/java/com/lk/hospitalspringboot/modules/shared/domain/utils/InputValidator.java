@@ -3,6 +3,7 @@ package com.lk.hospitalspringboot.modules.shared.domain.utils;
 import com.lk.hospitalspringboot.modules.shared.domain.exceptions.InputValidationBundleException;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BooleanSupplier;
@@ -43,6 +44,23 @@ public class InputValidator {
         if (!matches) {
             this.errors.put(field, reason);
         }
+        return this;
+    }
+
+    public InputValidator ensureEnumCollection(
+            Collection<String> values,
+            Class<? extends Enum<?>> enumClass,
+            String field,
+            String reason
+    ) {
+        if (values == null || values.isEmpty()) {
+            this.errors.put(field, reason);
+            return this;
+        }
+
+        values.forEach(value -> {
+            this.ensureEnum(value, enumClass, field, reason);
+        });
         return this;
     }
 
