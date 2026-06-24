@@ -39,7 +39,7 @@ public class InputValidator {
         }
 
         boolean matches = Arrays.stream(enumClass.getEnumConstants())
-                .anyMatch(e -> e.name().equals(value));
+                .anyMatch(e -> e.name().equalsIgnoreCase(value.trim()));
 
         if (!matches) {
             this.errors.put(field, reason);
