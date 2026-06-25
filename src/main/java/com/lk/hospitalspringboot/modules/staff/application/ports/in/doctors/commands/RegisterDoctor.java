@@ -34,7 +34,7 @@ public class RegisterDoctor {
             InputValidator.initialize()
                     .ensure(() -> firstName != null && !firstName.isBlank(), "firstName", "First name is required")
                     .ensure(() -> lastName != null && !lastName.isBlank(), "lastName", "Last name is required")
-                    .ensure(() -> identifierValue != null && !identifierValue.isBlank(), "identifierValue", "Identifier value is required")
+                    .ensure(() -> identifierValue != null && !identifierValue.isBlank(), "identifierValue", "Identifier amount is required")
                     .ensureEnum(identifierType, NationalIdentifier.IdentifierType.class, "identifierType", "Identifier type must be of a valid type")
                     .ensureEnumCollection(specialties, MedicalSpecialty.class, "specialties", "All given specialties must be valid")
                     .ensureEnum(contractType, ContractType.class, "contractType", "Contract type must be of a valid type")

@@ -2,6 +2,7 @@ package com.lk.hospitalspringboot.modules.staff.infrastructure.config;
 
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.GetDoctor;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.SearchDoctors;
+import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.GetDoctorAdmin;
 import com.lk.hospitalspringboot.modules.staff.application.services.doctors.DoctorRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,5 +21,11 @@ public class QueriesConfig {
     @Transactional(readOnly = true)
     public GetDoctor.Handler fetchDoctorHandler(DoctorRepository doctorRepository) {
         return new GetDoctor.Handler(doctorRepository);
+    }
+
+    @Bean
+    @Transactional(readOnly = true)
+    public GetDoctorAdmin.Handler fetchDoctorAdminHandler(DoctorRepository doctorRepository) {
+        return new GetDoctorAdmin.Handler(doctorRepository);
     }
 }

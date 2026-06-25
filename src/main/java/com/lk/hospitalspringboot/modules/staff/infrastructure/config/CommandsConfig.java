@@ -1,9 +1,6 @@
 package com.lk.hospitalspringboot.modules.staff.infrastructure.config;
 
-import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.AddDoctorSpecialty;
-import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.RegisterDoctor;
-import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.RemoveDoctorSpecialty;
-import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.UpdateDoctorPersonalInfo;
+import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.*;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.SearchDoctors;
 import com.lk.hospitalspringboot.modules.staff.application.services.doctors.DoctorRepository;
 import org.springframework.context.annotation.Bean;
@@ -35,5 +32,11 @@ public class CommandsConfig {
     @Transactional
     public RemoveDoctorSpecialty.Handler removeDoctorSpecialtyHandler(DoctorRepository doctorRepository) {
         return new RemoveDoctorSpecialty.Handler(doctorRepository);
+    }
+
+    @Bean
+    @Transactional
+    public UpdateDoctorSalary.Handler updateDoctorSalaryHandler(DoctorRepository doctorRepository) {
+        return new UpdateDoctorSalary.Handler(doctorRepository);
     }
 }

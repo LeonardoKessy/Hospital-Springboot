@@ -34,4 +34,8 @@ public record Money(
     public static Money ars(BigDecimal amount) {
         return new Money(amount, ValidCurrencies.ARS);
     }
+
+    public String money() {
+        return amount.toString() + " " +  currency.name();
+    }
 }
