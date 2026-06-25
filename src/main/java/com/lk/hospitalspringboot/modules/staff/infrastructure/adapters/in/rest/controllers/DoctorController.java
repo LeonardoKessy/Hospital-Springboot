@@ -2,8 +2,10 @@ package com.lk.hospitalspringboot.modules.staff.infrastructure.adapters.in.rest.
 
 import com.lk.hospitalspringboot.modules.shared.application.ports.in.responses.CollectionResponse;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.RegisterDoctor;
+import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.GetDoctor;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.SearchDoctors;
-import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.responses.DoctorSummary;
+import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.responses.DoctorProfileResponse;
+import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.responses.DoctorSummaryResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -22,6 +24,7 @@ class DoctorController {
 
     private final RegisterDoctor.Handler registerDoctorHandler;
     private final SearchDoctors.Handler searchDoctorsHandler;
+    private final GetDoctor.Handler getDoctorHandler;
 
     @PostMapping
     public ResponseEntity<Void> insert(
@@ -39,7 +42,7 @@ class DoctorController {
     }
 
     @GetMapping
-    public ResponseEntity<CollectionResponse<DoctorSummary>> getDoctors(
+    public ResponseEntity<CollectionResponse<DoctorSummaryResponse>> getDoctors(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String specialty,
             @PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable
@@ -52,5 +55,12 @@ class DoctorController {
         );
 
         return ResponseEntity.ok(searchDoctorsHandler.execute(query));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DoctorProfileResponse> getDoctorById(
+            @PathVariable String id
+    ) {
+        return ResponseEntity.ok(getDoctorHandler.execute(id));
     }
 }

@@ -1,7 +1,8 @@
 package com.lk.hospitalspringboot.modules.staff.infrastructure.adapters.out.persistence.db.repositories;
 
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.SearchDoctors;
-import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.responses.DoctorSummary;
+import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.responses.DoctorProfileResponse;
+import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.responses.DoctorSummaryResponse;
 import com.lk.hospitalspringboot.modules.staff.application.services.doctors.DoctorRepository;
 import com.lk.hospitalspringboot.modules.staff.domain.models.Doctor;
 import com.lk.hospitalspringboot.modules.staff.infrastructure.adapters.in.rest.mappers.DoctorMapper;
@@ -15,6 +16,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -30,7 +33,7 @@ public class StaffDoctorRepositoryAdapter implements DoctorRepository {
     }
 
     @Override
-    public List<DoctorSummary> searchDoctors(SearchDoctors.Query query) {
+    public List<DoctorSummaryResponse> searchDoctors(SearchDoctors.Query query) {
         Pageable pageable = PageRequest.of(query.page(), query.size(), Sort.by(Sort.Direction.DESC, "id"));
 
         var doctors = doctorJpaRepository.findWithFilters(
@@ -42,5 +45,11 @@ public class StaffDoctorRepositoryAdapter implements DoctorRepository {
         return doctors.stream()
                 .map(doctorMapper::toDoctorSummaryResponse)
                 .toList();
+    }
+
+    @Override
+    public Optional<DoctorProfileResponse> getById(UUID id) {
+        return this.doctorJpaRepository.findById(id)
+                .map(doctorMapper::toDoctorProfileResponse);
     }
 }

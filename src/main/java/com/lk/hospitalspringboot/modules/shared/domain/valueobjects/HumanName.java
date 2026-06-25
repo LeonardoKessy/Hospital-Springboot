@@ -14,4 +14,8 @@ public record HumanName(
             throw new InputValidationException("lastName", "Last name field cannot be null");
         }
     }
+
+    public String fullName() {
+        return firstName + " " + lastName;
+    }
 }

@@ -4,7 +4,7 @@ import com.lk.hospitalspringboot.modules.shared.application.ports.in.responses.C
 import com.lk.hospitalspringboot.modules.shared.domain.enums.MedicalSpecialty;
 import com.lk.hospitalspringboot.modules.shared.domain.utils.EnumParser;
 import com.lk.hospitalspringboot.modules.shared.domain.utils.InputValidator;
-import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.responses.DoctorSummary;
+import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.responses.DoctorSummaryResponse;
 import com.lk.hospitalspringboot.modules.staff.application.services.doctors.DoctorRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -35,7 +35,7 @@ public final class SearchDoctors {
     public static class Handler {
         private final DoctorRepository doctorRepository;
 
-        public CollectionResponse<DoctorSummary> execute(Query query) {
+        public CollectionResponse<DoctorSummaryResponse> execute(Query query) {
             var doctors = doctorRepository.searchDoctors(query);
 
             return CollectionResponse.of(doctors, query.page, query.size);

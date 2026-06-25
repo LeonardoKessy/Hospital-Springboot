@@ -16,9 +16,4 @@ public class CommandsConfig {
         return new RegisterDoctor.Handler(doctorRepository);
     }
 
-    @Bean
-    @Transactional(readOnly = true)
-    public SearchDoctors.Handler fetchDoctorsHandler(DoctorRepository doctorRepository) {
-        return new SearchDoctors.Handler(doctorRepository);
-    }
 }
