@@ -13,6 +13,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.BatchSize;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -69,6 +70,7 @@ public class StaffDoctorJpa {
             joinColumns = @JoinColumn(name = "doctor_id")
     )
     @Enumerated(EnumType.STRING)
+    @BatchSize(size = 10)
     @Column(name = "specialty", nullable = false, length = 50)
     private Set<MedicalSpecialty> specialties;
 

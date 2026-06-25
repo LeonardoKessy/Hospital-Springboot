@@ -2,15 +2,14 @@ package com.lk.hospitalspringboot.modules.staff.infrastructure.adapters.in.rest.
 
 import com.lk.hospitalspringboot.modules.shared.application.ports.in.responses.CollectionResponse;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.RegisterDoctor;
-import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.FetchDoctors;
+import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.SearchDoctors;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.responses.DoctorSummary;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -22,7 +21,7 @@ import java.util.UUID;
 class DoctorController {
 
     private final RegisterDoctor.Handler registerDoctorHandler;
-    private final FetchDoctors.Handler fetchDoctorsHandler;
+    private final SearchDoctors.Handler searchDoctorsHandler;
 
     @PostMapping
     public ResponseEntity<Void> insert(
@@ -40,7 +39,18 @@ class DoctorController {
     }
 
     @GetMapping
-    public ResponseEntity<CollectionResponse<DoctorSummary>> getDoctors() {
-        return ResponseEntity.ok(fetchDoctorsHandler.execute());
+    public ResponseEntity<CollectionResponse<DoctorSummary>> getDoctors(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String specialty,
+            @PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable
+    ) {
+        var query = new SearchDoctors.Query(
+                name,
+                specialty,
+                pageable.getPageNumber(),
+                pageable.getPageSize()
+        );
+
+        return ResponseEntity.ok(searchDoctorsHandler.execute(query));
     }
 }

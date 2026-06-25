@@ -1,7 +1,7 @@
 package com.lk.hospitalspringboot.modules.staff.infrastructure.config;
 
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.RegisterDoctor;
-import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.FetchDoctors;
+import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.SearchDoctors;
 import com.lk.hospitalspringboot.modules.staff.application.services.doctors.DoctorRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +18,7 @@ public class CommandsConfig {
 
     @Bean
     @Transactional(readOnly = true)
-    public FetchDoctors.Handler fetchDoctorsHandler(DoctorRepository doctorRepository) {
-        return new FetchDoctors.Handler(doctorRepository);
+    public SearchDoctors.Handler fetchDoctorsHandler(DoctorRepository doctorRepository) {
+        return new SearchDoctors.Handler(doctorRepository);
     }
 }

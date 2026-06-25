@@ -20,4 +20,14 @@ public final class EnumParser {
                 .map(value ->Enum.valueOf(enumClass, value))
                 .collect(Collectors.toUnmodifiableSet());
     }
+
+    public static <E extends Enum<E>> boolean isValid(Class<E> enumClass, String value) {
+        if (value == null || value.isBlank()) return false;
+        try {
+            Enum.valueOf(enumClass, value.toUpperCase().trim());
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

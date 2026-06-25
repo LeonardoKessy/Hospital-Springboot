@@ -1,5 +1,6 @@
 package com.lk.hospitalspringboot.modules.staff.infrastructure.adapters.out.persistence.db.repositories;
 
+import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.SearchDoctors;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.responses.DoctorSummary;
 import com.lk.hospitalspringboot.modules.staff.application.services.doctors.DoctorRepository;
 import com.lk.hospitalspringboot.modules.staff.domain.models.Doctor;
@@ -8,6 +9,9 @@ import com.lk.hospitalspringboot.modules.staff.infrastructure.adapters.out.persi
 import com.lk.hospitalspringboot.modules.staff.infrastructure.adapters.out.persistence.db.repositories.jpa.StaffDoctorJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -26,8 +30,14 @@ public class StaffDoctorRepositoryAdapter implements DoctorRepository {
     }
 
     @Override
-    public List<DoctorSummary> fetchAllDoctors() {
-        var doctors = doctorJpaRepository.findAllWithSpecialties();
+    public List<DoctorSummary> searchDoctors(SearchDoctors.Query query) {
+        Pageable pageable = PageRequest.of(query.page(), query.size(), Sort.by(Sort.Direction.DESC, "id"));
+
+        var doctors = doctorJpaRepository.findWithFilters(
+                query.name(),
+                query.medicalSpecialty(),
+                pageable
+        );
 
         return doctors.stream()
                 .map(doctorMapper::toDoctorSummaryResponse)

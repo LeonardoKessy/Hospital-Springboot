@@ -1,9 +1,12 @@
 package com.lk.hospitalspringboot.modules.staff.infrastructure.adapters.out.persistence.db.repositories.jpa;
 
+import com.lk.hospitalspringboot.modules.shared.domain.enums.MedicalSpecialty;
 import com.lk.hospitalspringboot.modules.staff.infrastructure.adapters.out.persistence.db.entities.StaffDoctorJpa;
-import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,7 +15,17 @@ import java.util.UUID;
 @Repository
 public interface StaffDoctorJpaRepository extends JpaRepository<StaffDoctorJpa, UUID> {
 
-    @EntityGraph(attributePaths = {"specialties"})
-    @Query("SELECT d FROM StaffDoctorJpa d")
-    List<StaffDoctorJpa> findAllWithSpecialties();
+    @Query(
+            "SELECT d FROM StaffDoctorJpa d WHERE " +
+                    "((:name IS NULL OR " +
+                    "d.firstName ILIKE CONCAT('%', :name, '%') OR " +
+                    "d.lastName ILIKE CONCAT('%', :name, '%')) AND " +
+                    "(:specialty IS NULL OR " +
+                    "EXISTS (SELECT s FROM d.specialties s WHERE s = :specialty)))"
+    )
+    Page<StaffDoctorJpa> findWithFilters(
+            @Param("name") String name,
+            @Param("specialty") MedicalSpecialty specialty,
+            Pageable pageable
+    );
 }
