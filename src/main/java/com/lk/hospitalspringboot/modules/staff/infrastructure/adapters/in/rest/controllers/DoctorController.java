@@ -4,6 +4,7 @@ import com.lk.hospitalspringboot.modules.shared.application.ports.in.responses.C
 import com.lk.hospitalspringboot.modules.shared.infrastructure.config.WebMvcConfig;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.AddDoctorSpecialty;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.RegisterDoctor;
+import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.RemoveDoctorSpecialty;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.UpdateDoctorPersonalInfo;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.GetDoctor;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.SearchDoctors;
@@ -29,6 +30,7 @@ class DoctorController {
     private final GetDoctor.Handler getDoctorHandler;
     private final UpdateDoctorPersonalInfo.Handler updateDoctorPersonalInfoHandler;
     private final AddDoctorSpecialty.Handler addDoctorSpecialtyHandler;
+    private final RemoveDoctorSpecialty.Handler removeDoctorSpecialtyHandler;
 
     @GetMapping
     public ResponseEntity<CollectionResponse<DoctorSummaryResponse>> getDoctors(
@@ -76,5 +78,16 @@ class DoctorController {
                 .toUri();
 
         return ResponseEntity.created(uri).build();
+    }
+
+
+    @DeleteMapping("/{id}/specialties/{specialty}")
+    public ResponseEntity<Void> removeSpecialty(
+            @PathVariable String id,
+            @PathVariable String specialty
+    ){
+        removeDoctorSpecialtyHandler.execute(id, specialty);
+
+        return ResponseEntity.noContent().build();
     }
 }

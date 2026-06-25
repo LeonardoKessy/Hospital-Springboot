@@ -1,9 +1,6 @@
 package com.lk.hospitalspringboot.modules.shared.infrastructure.adapters.in.rest.advice;
 
-import com.lk.hospitalspringboot.modules.shared.domain.exceptions.BusinessRuleException;
-import com.lk.hospitalspringboot.modules.shared.domain.exceptions.InputValidationBundleException;
-import com.lk.hospitalspringboot.modules.shared.domain.exceptions.InputValidationException;
-import com.lk.hospitalspringboot.modules.shared.domain.exceptions.ResourceNotFoundException;
+import com.lk.hospitalspringboot.modules.shared.domain.exceptions.*;
 import com.lk.hospitalspringboot.modules.shared.infrastructure.adapters.in.rest.responses.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -104,5 +101,19 @@ class GlobalExceptionControllerAdvice {
                 request.getRequestURI()
         );
         return ResponseEntity.status(status).body(error);
+    }
+
+    @ExceptionHandler(InvalidTypeConversionException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidTypeConversionException(
+            InvalidTypeConversionException e,
+            HttpServletRequest request
+    ) {
+        var error = ErrorResponse.of(
+                HttpStatus.BAD_REQUEST,
+                e.getCode(),
+                e.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 }

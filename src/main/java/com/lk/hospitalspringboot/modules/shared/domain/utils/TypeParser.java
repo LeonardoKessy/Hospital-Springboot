@@ -1,6 +1,7 @@
 package com.lk.hospitalspringboot.modules.shared.domain.utils;
 
 import com.lk.hospitalspringboot.modules.shared.domain.exceptions.InputValidationException;
+import com.lk.hospitalspringboot.modules.shared.domain.exceptions.InvalidTypeConversionException;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -14,14 +15,22 @@ public final class TypeParser {
 
     public static <E extends Enum<E>> E parseEnum(Class<E> enumClass, String value) {
         if (value == null || value.isBlank()) return null;
-        return Enum.valueOf(enumClass, value.toUpperCase().trim());
+        try {
+            return Enum.valueOf(enumClass, value.toUpperCase().trim());
+        }  catch (IllegalArgumentException e) {
+            throw new InvalidTypeConversionException(value, enumClass.getSimpleName());
+        }
     }
 
     public static <E extends Enum<E>> Set<E> parseEnum(Class<E> enumClass, Collection<String> values) {
         if (values == null || values.isEmpty()) return Collections.emptySet();
-        return values.stream()
-                .map(value ->Enum.valueOf(enumClass, value))
-                .collect(Collectors.toUnmodifiableSet());
+        try {
+            return values.stream()
+                    .map(value -> Enum.valueOf(enumClass, value))
+                    .collect(Collectors.toUnmodifiableSet());
+        } catch (IllegalArgumentException e) {
+            throw new InvalidTypeConversionException("String Collection", enumClass.getSimpleName() + " Collection");
+        }
     }
 
     public static UUID parseUuid(String uuid) {
@@ -29,7 +38,7 @@ public final class TypeParser {
         try  {
             return UUID.fromString(uuid);
         }  catch (IllegalArgumentException e) {
-            throw new InputValidationException("id", "Given ID is not a valid UUID");
+            throw new InvalidTypeConversionException(uuid, "UUID");
         }
     }
 

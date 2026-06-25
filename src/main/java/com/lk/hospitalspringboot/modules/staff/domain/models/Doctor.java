@@ -79,16 +79,19 @@ public class Doctor extends AggregateRoot {
     public void addSpecialty(MedicalSpecialty specialty) {
         Objects.requireNonNull(specialty, "Specialty cannot be null");
         if (specialties.contains(specialty)) {
-            throw new InputValidationException("specialty", "Doctor with ID " + this.getId() + " already has specialty " + specialty.name());
+            throw new BusinessRuleException(StaffBusinessRules.ALREADY_HAS_SPECIALTY);
         }
         specialties.add(specialty);
     }
 
     public void removeSpecialty(MedicalSpecialty specialty) {
         Objects.requireNonNull(specialty, "Specialty cannot be null");
+        if (!specialties.contains(specialty)) {
+            throw new BusinessRuleException(StaffBusinessRules.DOES_NOT_HAVE_SPECIALTY);
+        }
+
         if (
-                specialties.size() == 1 &&
-                specialties.contains(specialty)
+                specialties.size() == 1
         ) {
             throw new BusinessRuleException(StaffBusinessRules.NO_EMPTY_SPECIALTIES);
         }

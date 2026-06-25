@@ -10,7 +10,9 @@ public enum StaffBusinessRules implements BusinessRuleErrorCode {
     INVALID_LICENSE("INVALID_LICENSE", "A doctor must have a valid medical license"),
     NO_EMPTY_SPECIALTIES("NO_EMPTY_SPECIALTIES", "A doctor must have at least one specialty"),
     NO_NEGATIVE_SALARY("NO_NEGATIVE_SALARY", "No member of the staff can have a negative salary"),
-    IMPOSSIBLE_STATUS_CHANGE("IMPOSSIBLE_STATUS_CHANGE", "Status cannot be changed due to state change restrictions");
+    IMPOSSIBLE_STATUS_CHANGE("IMPOSSIBLE_STATUS_CHANGE", "Status cannot be changed due to state change restrictions"),
+    ALREADY_HAS_SPECIALTY("ALREADY_HAS_SPECIALTY", "A doctor cannot have the same specialty twice"),
+    DOES_NOT_HAVE_SPECIALTY("DOES_NOT_HAVE_SPECIALTY", "A doctor does not have the received specialty");
 
     private final String code;
     private final String message;
