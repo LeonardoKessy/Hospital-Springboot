@@ -4,6 +4,7 @@ import com.lk.hospitalspringboot.modules.shared.domain.abstracts.AggregateRoot;
 import com.lk.hospitalspringboot.modules.shared.domain.enums.EmployeeStatus;
 import com.lk.hospitalspringboot.modules.shared.domain.enums.MedicalSpecialty;
 import com.lk.hospitalspringboot.modules.shared.domain.exceptions.BusinessRuleException;
+import com.lk.hospitalspringboot.modules.shared.domain.exceptions.InputValidationException;
 import com.lk.hospitalspringboot.modules.shared.domain.valueobjects.HumanName;
 import com.lk.hospitalspringboot.modules.shared.domain.valueobjects.Money;
 import com.lk.hospitalspringboot.modules.shared.domain.valueobjects.NationalIdentifier;
@@ -77,6 +78,9 @@ public class Doctor extends AggregateRoot {
 
     public void addSpecialty(MedicalSpecialty specialty) {
         Objects.requireNonNull(specialty, "Specialty cannot be null");
+        if (specialties.contains(specialty)) {
+            throw new InputValidationException("specialty", "Doctor with ID " + this.getId() + " already has specialty " + specialty.name());
+        }
         specialties.add(specialty);
     }
 

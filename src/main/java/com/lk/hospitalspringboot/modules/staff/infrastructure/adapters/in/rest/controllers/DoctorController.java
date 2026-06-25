@@ -1,6 +1,8 @@
 package com.lk.hospitalspringboot.modules.staff.infrastructure.adapters.in.rest.controllers;
 
 import com.lk.hospitalspringboot.modules.shared.application.ports.in.responses.CollectionResponse;
+import com.lk.hospitalspringboot.modules.shared.infrastructure.config.WebMvcConfig;
+import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.AddDoctorSpecialty;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.RegisterDoctor;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.UpdateDoctorPersonalInfo;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.GetDoctor;
@@ -23,25 +25,10 @@ import java.util.UUID;
 @RequestMapping("/doctors")
 class DoctorController {
 
-    private final RegisterDoctor.Handler registerDoctorHandler;
     private final SearchDoctors.Handler searchDoctorsHandler;
     private final GetDoctor.Handler getDoctorHandler;
     private final UpdateDoctorPersonalInfo.Handler updateDoctorPersonalInfoHandler;
-
-    @PostMapping
-    public ResponseEntity<Void> insert(
-            @RequestBody RegisterDoctor.Command command
-    ) {
-        UUID id = registerDoctorHandler.execute(command);
-
-        URI uri = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(id)
-                .toUri();
-
-        return ResponseEntity.created(uri).build();
-    }
+    private final AddDoctorSpecialty.Handler addDoctorSpecialtyHandler;
 
     @GetMapping
     public ResponseEntity<CollectionResponse<DoctorSummaryResponse>> getDoctors(
@@ -72,5 +59,22 @@ class DoctorController {
             @RequestBody UpdateDoctorPersonalInfo.Command command
     ) {
         return ResponseEntity.ok(updateDoctorPersonalInfoHandler.execute(id, command));
+    }
+
+    @PostMapping("/{id}/specialties")
+    public ResponseEntity<Void> addSpecialty(
+            @PathVariable String id,
+            @RequestBody AddDoctorSpecialty.Command command
+    ) {
+        var doctorId = addDoctorSpecialtyHandler.execute(id, command);
+
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentContextPath()
+                .path(WebMvcConfig.BASE_PATH)
+                .path("/doctors/{id}")
+                .buildAndExpand(doctorId)
+                .toUri();
+
+        return ResponseEntity.created(uri).build();
     }
 }
