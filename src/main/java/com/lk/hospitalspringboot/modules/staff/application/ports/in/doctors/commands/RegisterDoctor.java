@@ -3,7 +3,7 @@ package com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.com
 import com.github.f4b6a3.uuid.UuidCreator;
 import com.lk.hospitalspringboot.modules.shared.domain.enums.MedicalSpecialty;
 import com.lk.hospitalspringboot.modules.shared.domain.enums.ValidCurrencies;
-import com.lk.hospitalspringboot.modules.shared.domain.utils.EnumParser;
+import com.lk.hospitalspringboot.modules.shared.domain.utils.TypeParser;
 import com.lk.hospitalspringboot.modules.shared.domain.utils.InputValidator;
 import com.lk.hospitalspringboot.modules.shared.domain.valueobjects.HumanName;
 import com.lk.hospitalspringboot.modules.shared.domain.valueobjects.Money;
@@ -32,14 +32,14 @@ public class RegisterDoctor {
     ) {
         public Command {
             InputValidator.initialize()
-                    .ensure(() -> firstName == null || firstName.isBlank(), "firstName", "First name is required")
-                    .ensure(() -> lastName == null || lastName.isBlank(), "lastName", "Last name is required")
-                    .ensure(() -> identifierValue == null || identifierValue.isBlank(), "identifierValue", "Identifier value is required")
+                    .ensure(() -> firstName != null && !firstName.isBlank(), "firstName", "First name is required")
+                    .ensure(() -> lastName != null && !lastName.isBlank(), "lastName", "Last name is required")
+                    .ensure(() -> identifierValue != null && !identifierValue.isBlank(), "identifierValue", "Identifier value is required")
                     .ensureEnum(identifierType, NationalIdentifier.IdentifierType.class, "identifierType", "Identifier type must be of a valid type")
                     .ensureEnumCollection(specialties, MedicalSpecialty.class, "specialties", "All given specialties must be valid")
                     .ensureEnum(contractType, ContractType.class, "contractType", "Contract type must be of a valid type")
                     .ensure(
-                            () -> salaryAmount == null || salaryAmount.compareTo(BigDecimal.ZERO) <= 0,
+                            () -> salaryAmount != null && salaryAmount.compareTo(BigDecimal.ZERO) >= 0,
                             "salaryAmount", "Salary amount is required and must be positive"
                             )
                     .ensureEnum(salaryCurrency, ValidCurrencies.class, "salaryCurrency", "Salary currency must be a valid currency")
@@ -55,26 +55,26 @@ public class RegisterDoctor {
             HumanName name = new HumanName(command.firstName(), command.lastName());
 
             NationalIdentifier identifier = new NationalIdentifier(
-                    EnumParser.parse(
+                    TypeParser.parseEnum(
                             NationalIdentifier.IdentifierType.class,
                             command.identifierType()
                             ),
                     command.identifierValue()
             );
 
-            Set<MedicalSpecialty> specialties = EnumParser.parse(
+            Set<MedicalSpecialty> specialties = TypeParser.parseEnum(
                     MedicalSpecialty.class,
                     command.specialties()
             );
 
-            ContractType contractType = EnumParser.parse(
+            ContractType contractType = TypeParser.parseEnum(
                     ContractType.class,
                     command.contractType()
             );
 
             Money salary = new Money(
                     command.salaryAmount(),
-                    EnumParser.parse(
+                    TypeParser.parseEnum(
                             ValidCurrencies.class,
                             command.salaryCurrency()
                     )

@@ -4,8 +4,10 @@ import com.lk.hospitalspringboot.modules.shared.domain.enums.ResourceType;
 import com.lk.hospitalspringboot.modules.shared.domain.exceptions.InputValidationException;
 import com.lk.hospitalspringboot.modules.shared.domain.exceptions.ResourceNotFoundException;
 import com.lk.hospitalspringboot.modules.shared.domain.utils.InputValidator;
+import com.lk.hospitalspringboot.modules.shared.domain.utils.TypeParser;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.responses.DoctorProfileResponse;
 import com.lk.hospitalspringboot.modules.staff.application.services.doctors.DoctorRepository;
+import com.lk.hospitalspringboot.modules.staff.domain.models.Doctor;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
@@ -19,17 +21,11 @@ public final class GetDoctor {
         private final DoctorRepository doctorRepository;
 
         public DoctorProfileResponse execute(String idStr) {
-            if (!InputValidator.isValidUUID(idStr))
-                throw new InputValidationException("id", "Received ID is not a valid UUID");
+            UUID id = TypeParser.parseUuid(idStr);
 
-            UUID id = UUID.fromString(idStr);
+            Doctor response = doctorRepository.getById(id);
 
-            Optional<DoctorProfileResponse> response = doctorRepository.getById(id);
-
-            if (response.isEmpty())
-                throw new ResourceNotFoundException(ResourceType.DOCTOR, idStr);
-
-            return response.get();
+            return DoctorProfileResponse.from(response);
         }
     }
 }

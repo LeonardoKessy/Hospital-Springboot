@@ -2,6 +2,7 @@ package com.lk.hospitalspringboot.modules.staff.infrastructure.adapters.in.rest.
 
 import com.lk.hospitalspringboot.modules.shared.application.ports.in.responses.CollectionResponse;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.RegisterDoctor;
+import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.UpdateDoctorPersonalInfo;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.GetDoctor;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.SearchDoctors;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.responses.DoctorProfileResponse;
@@ -25,6 +26,7 @@ class DoctorController {
     private final RegisterDoctor.Handler registerDoctorHandler;
     private final SearchDoctors.Handler searchDoctorsHandler;
     private final GetDoctor.Handler getDoctorHandler;
+    private final UpdateDoctorPersonalInfo.Handler updateDoctorPersonalInfoHandler;
 
     @PostMapping
     public ResponseEntity<Void> insert(
@@ -62,5 +64,13 @@ class DoctorController {
             @PathVariable String id
     ) {
         return ResponseEntity.ok(getDoctorHandler.execute(id));
+    }
+
+    @PutMapping("/{id}/personal-info")
+    public ResponseEntity<DoctorProfileResponse> updatePersonalInfo(
+            @PathVariable String id,
+            @RequestBody UpdateDoctorPersonalInfo.Command command
+    ) {
+        return ResponseEntity.ok(updateDoctorPersonalInfoHandler.execute(id, command));
     }
 }

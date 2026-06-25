@@ -1,5 +1,7 @@
 package com.lk.hospitalspringboot.modules.staff.infrastructure.adapters.out.persistence.db.repositories;
 
+import com.lk.hospitalspringboot.modules.shared.domain.enums.ResourceType;
+import com.lk.hospitalspringboot.modules.shared.domain.exceptions.ResourceNotFoundException;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.SearchDoctors;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.responses.DoctorProfileResponse;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.responses.DoctorSummaryResponse;
@@ -33,7 +35,7 @@ public class StaffDoctorRepositoryAdapter implements DoctorRepository {
     }
 
     @Override
-    public List<DoctorSummaryResponse> searchDoctors(SearchDoctors.Query query) {
+    public List<Doctor> searchDoctors(SearchDoctors.Query query) {
         Pageable pageable = PageRequest.of(query.page(), query.size(), Sort.by(Sort.Direction.DESC, "id"));
 
         var doctors = doctorJpaRepository.findWithFilters(
@@ -43,13 +45,24 @@ public class StaffDoctorRepositoryAdapter implements DoctorRepository {
         );
 
         return doctors.stream()
-                .map(doctorMapper::toDoctorSummaryResponse)
+                .map(StaffDoctorJpa::toDomain)
                 .toList();
     }
 
     @Override
-    public Optional<DoctorProfileResponse> getById(UUID id) {
-        return this.doctorJpaRepository.findById(id)
-                .map(doctorMapper::toDoctorProfileResponse);
+    public Doctor getById(UUID id) {
+        var doctor = this.doctorJpaRepository.findById(id)
+                .map(StaffDoctorJpa::toDomain);
+
+        if (doctor.isPresent()) {
+            return doctor.get();
+        } else {
+            throw new ResourceNotFoundException(ResourceType.DOCTOR, id);
+        }
+    }
+
+    @Override
+    public void save(Doctor doctor) {
+        this.doctorJpaRepository.save(StaffDoctorJpa.fromDomain(doctor));
     }
 }

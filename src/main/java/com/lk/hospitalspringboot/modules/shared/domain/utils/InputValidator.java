@@ -24,7 +24,7 @@ public class InputValidator {
             String reason
     ) {
         try {
-            if (condition.getAsBoolean()) {
+            if (!condition.getAsBoolean()) {
                 this.errors.put(fieldName, reason);
             }
         } catch (Exception e) {

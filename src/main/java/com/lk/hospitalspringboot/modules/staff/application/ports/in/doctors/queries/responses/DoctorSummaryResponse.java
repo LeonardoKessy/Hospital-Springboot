@@ -1,6 +1,7 @@
 package com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.responses;
 
 import com.lk.hospitalspringboot.modules.shared.domain.enums.MedicalSpecialty;
+import com.lk.hospitalspringboot.modules.staff.domain.models.Doctor;
 
 import java.util.Set;
 import java.util.UUID;
@@ -10,4 +11,12 @@ public record DoctorSummaryResponse(
         String fullName,
         Set<MedicalSpecialty> specialties
 ) {
+
+    public static DoctorSummaryResponse from(Doctor doctor) {
+        return new DoctorSummaryResponse(
+                doctor.getId(),
+                doctor.getName().firstName() + " " + doctor.getName().lastName(),
+                doctor.getSpecialties()
+        );
+    }
 }
