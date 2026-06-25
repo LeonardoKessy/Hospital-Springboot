@@ -87,4 +87,14 @@ public class InputValidator {
         }
         return UUID_REGEX.matcher(uuid).matches();
     }
+
+    public static <E extends Enum<E>> boolean isValidEnum(Class<E> enumClass, String value) {
+        if (value == null || value.isBlank()) return false;
+        try {
+            Enum.valueOf(enumClass, value.toUpperCase().trim());
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

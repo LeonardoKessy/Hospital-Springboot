@@ -5,9 +5,9 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public final class EnumParser {
+public final class TypeParser {
 
-    private EnumParser() {}
+    private TypeParser() {}
 
     public static <E extends Enum<E>> E parse(Class<E> enumClass, String value) {
         if (value == null || value.isBlank()) return null;
@@ -21,13 +21,5 @@ public final class EnumParser {
                 .collect(Collectors.toUnmodifiableSet());
     }
 
-    public static <E extends Enum<E>> boolean isValid(Class<E> enumClass, String value) {
-        if (value == null || value.isBlank()) return false;
-        try {
-            Enum.valueOf(enumClass, value.toUpperCase().trim());
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
+
 }
