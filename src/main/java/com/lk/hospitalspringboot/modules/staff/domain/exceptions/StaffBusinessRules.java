@@ -12,7 +12,8 @@ public enum StaffBusinessRules implements BusinessRuleErrorCode {
     NO_NEGATIVE_SALARY("NO_NEGATIVE_SALARY", "No member of the staff can have a negative salary"),
     IMPOSSIBLE_STATUS_CHANGE("IMPOSSIBLE_STATUS_CHANGE", "Status cannot be changed due to state change restrictions"),
     ALREADY_HAS_SPECIALTY("ALREADY_HAS_SPECIALTY", "A doctor cannot have the same specialty twice"),
-    DOES_NOT_HAVE_SPECIALTY("DOES_NOT_HAVE_SPECIALTY", "A doctor does not have the received specialty");
+    DOES_NOT_HAVE_SPECIALTY("DOES_NOT_HAVE_SPECIALTY", "A doctor does not have the received specialty"),
+    TERMINATION_BEFORE_HIRE("TERMINATION_BEFORE_HIRE", "An employee cannot be terminated previous to the hiring date");
 
     private final String code;
     private final String message;

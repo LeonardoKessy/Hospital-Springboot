@@ -30,39 +30,13 @@ public class StaffDoctorJpa {
     @Column(name = "id", nullable = false)
     private UUID id;
 
-    @Column(name = "first_name", nullable = false, length = 50)
-    private String firstName;
-
-    @Column(name = "last_name", nullable = false, length = 50)
-    private String lastName;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "identifier_type", nullable = false, length = 50)
-    private NationalIdentifier.IdentifierType identifierType;
-
-    @Column(name = "identifier_value", nullable = false, length = 50)
-    private String identifierValue;
+    @MapsId
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "id", nullable = false)
+    private StaffEmployeeJpa employee;
 
     @Column(name = "medical_license", nullable = false, length = 100)
     private String medicalLicense;
-
-    @Column(name = "hire_date", nullable = false)
-    private LocalDate hireDate;
-
-    @Column(name = "contract_type", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private ContractType contractType;
-
-    @Column(name = "salary_amount", nullable = false)
-    private BigDecimal salaryAmount;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "salary_currency", nullable = false)
-    private ValidCurrencies salaryCurrency;
-
-    @Column(name = "status")
-    @Enumerated(EnumType.STRING)
-    private EmployeeStatus status;
 
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(
@@ -76,31 +50,17 @@ public class StaffDoctorJpa {
 
     public Doctor toDomain() {
         return new Doctor(
-                this.id,
-                new HumanName(this.firstName, this.lastName),
-                new NationalIdentifier(this.identifierType, this.identifierValue),
-                this.medicalLicense,
+                this.employee.toDomain(),
                 this.specialties,
-                this.hireDate,
-                this.contractType,
-                new Money(this.salaryAmount, this.salaryCurrency),
-                this.status
+                this.medicalLicense
         );
     }
 
-    public static StaffDoctorJpa fromDomain(Doctor dr) {
+    public static StaffDoctorJpa fromDomain(Doctor dr, StaffUserJpa user) {
         return new StaffDoctorJpa(
-                dr.getId(),
-                dr.getName().firstName(),
-                dr.getName().lastName(),
-                dr.getIdentifier().identifierType(),
-                dr.getIdentifier().identifierValue(),
+                dr.getEmploymentDetails().getId(),
+                StaffEmployeeJpa.from(dr.getEmploymentDetails(), user),
                 dr.getMedicalLicense(),
-                dr.getHireDate(),
-                dr.getContractType(),
-                dr.getSalary().amount(),
-                dr.getSalary().currency(),
-                dr.getStatus(),
                 dr.getSpecialties()
         );
     }

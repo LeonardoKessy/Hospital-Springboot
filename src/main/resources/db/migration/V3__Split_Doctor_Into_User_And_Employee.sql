@@ -28,6 +28,7 @@ CREATE TABLE user_roles(
 CREATE TABLE employees(
     id UUID DEFAULT UUID() PRIMARY KEY,
     user_id UUID NOT NULL,
+    enterprise_email VARCHAR(50) NOT NULL,
     contract_type VARCHAR(50) NOT NULL,
     base_salary DECIMAL(12, 2) NOT NULL,
     salary_currency CHAR(3) NOT NULL DEFAULT 'USD',
@@ -46,3 +47,8 @@ DROP COLUMN contract_type,
 DROP COLUMN salary_currency,
 DROP COLUMN salary_amount,
 DROP COLUMN status;
+
+ALTER TABLE doctors
+ADD CONSTRAINT fk_employee_id
+FOREIGN KEY (id)
+REFERENCES employees(id)
