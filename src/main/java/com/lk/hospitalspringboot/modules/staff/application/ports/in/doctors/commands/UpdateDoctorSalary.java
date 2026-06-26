@@ -40,7 +40,7 @@ public class UpdateDoctorSalary {
             Money money = command.money();
 
             Doctor doctor = doctorRepository.getById(id);
-            doctor.setSalary(money);
+            doctor.getEmploymentDetails().setSalary(money);
             doctorRepository.save(doctor);
 
             return DoctorAdminResponse.from(doctor);

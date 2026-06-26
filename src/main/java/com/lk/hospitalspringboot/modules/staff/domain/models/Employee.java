@@ -17,6 +17,7 @@ import java.util.UUID;
 @Getter
 public class Employee {
     private final UUID id;
+    private final UUID userId;
     private final HumanName name;
     private final NationalIdentifier identifier;
     private String enterpriseEmail;
@@ -28,6 +29,7 @@ public class Employee {
 
      public Employee(
             UUID id,
+            UUID userId,
             HumanName name,
             NationalIdentifier identifier,
             String enterpriseEmail,
@@ -38,6 +40,7 @@ public class Employee {
             EmployeeStatus status
     ) {
         this.id = Objects.requireNonNull(id, "ID must not be null");
+        this.userId = Objects.requireNonNull(userId, "User ID must not be null");
         this.name = Objects.requireNonNull(name, "Name must not be null");
         this.identifier = Objects.requireNonNull(identifier, "Identifier must not be null");
 
@@ -58,6 +61,7 @@ public class Employee {
 
     public static Employee hire(
             UUID id,
+            UUID userId,
             HumanName name,
             NationalIdentifier identifier,
             String enterpriseEmail,
@@ -66,6 +70,7 @@ public class Employee {
     ) {
          return new Employee(
                  id,
+                 userId,
                  name,
                  identifier,
                  enterpriseEmail,

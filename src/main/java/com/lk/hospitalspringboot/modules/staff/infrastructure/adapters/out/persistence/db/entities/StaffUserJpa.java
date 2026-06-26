@@ -1,9 +1,10 @@
 package com.lk.hospitalspringboot.modules.staff.infrastructure.adapters.out.persistence.db.entities;
 
+import com.lk.hospitalspringboot.modules.shared.domain.valueobjects.HumanName;
 import com.lk.hospitalspringboot.modules.shared.domain.valueobjects.NationalIdentifier;
+import com.lk.hospitalspringboot.modules.staff.domain.valueobjects.UserRecord;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.UUID;
 
@@ -27,4 +28,18 @@ public class StaffUserJpa {
 
     @Column(name = "identifier_value", nullable = false, length = 50)
     private String identifierValue;
+
+    public UserRecord toDomain() {
+        return new UserRecord(
+                this.id,
+                new HumanName(
+                        this.firstName,
+                        this.lastName
+                ),
+                new NationalIdentifier(
+                        this.identifierType,
+                        this.identifierValue
+                )
+        );
+    }
 }

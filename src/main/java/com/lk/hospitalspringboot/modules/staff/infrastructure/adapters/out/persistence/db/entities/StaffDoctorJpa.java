@@ -56,10 +56,10 @@ public class StaffDoctorJpa {
         );
     }
 
-    public static StaffDoctorJpa fromDomain(Doctor dr, StaffUserJpa user) {
+    public static StaffDoctorJpa fromDomain(Doctor dr) {
         return new StaffDoctorJpa(
                 dr.getEmploymentDetails().getId(),
-                StaffEmployeeJpa.from(dr.getEmploymentDetails(), user),
+                StaffEmployeeJpa.from(dr.getEmploymentDetails()),
                 dr.getMedicalLicense(),
                 dr.getSpecialties()
         );

@@ -35,7 +35,7 @@ public class AddDoctorSpecialty {
             doctor.addSpecialty(specialty);
             doctorRepository.save(doctor);
 
-            return doctor.getId();
+            return doctor.getEmploymentDetails().getId();
         }
     }
 }

@@ -3,14 +3,16 @@ package com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.com
 import com.github.f4b6a3.uuid.UuidCreator;
 import com.lk.hospitalspringboot.modules.shared.domain.enums.MedicalSpecialty;
 import com.lk.hospitalspringboot.modules.shared.domain.enums.ValidCurrencies;
-import com.lk.hospitalspringboot.modules.shared.domain.utils.TypeParser;
 import com.lk.hospitalspringboot.modules.shared.domain.utils.InputValidator;
-import com.lk.hospitalspringboot.modules.shared.domain.valueobjects.HumanName;
+import com.lk.hospitalspringboot.modules.shared.domain.utils.TypeParser;
 import com.lk.hospitalspringboot.modules.shared.domain.valueobjects.Money;
 import com.lk.hospitalspringboot.modules.shared.domain.valueobjects.NationalIdentifier;
 import com.lk.hospitalspringboot.modules.staff.application.services.doctors.DoctorRepository;
+import com.lk.hospitalspringboot.modules.staff.application.services.doctors.UserRepository;
 import com.lk.hospitalspringboot.modules.staff.domain.enums.ContractType;
 import com.lk.hospitalspringboot.modules.staff.domain.models.Doctor;
+import com.lk.hospitalspringboot.modules.staff.domain.models.Employee;
+import com.lk.hospitalspringboot.modules.staff.domain.valueobjects.UserRecord;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
@@ -20,79 +22,75 @@ import java.util.UUID;
 public class RegisterDoctor {
 
     public record Command (
-        String firstName,
-        String lastName,
-        String identifierValue,
-        String identifierType,
+        String userId,
+        String enterpriseEmail,
         String medicalLicense,
         Set<String> specialties,
         String contractType,
-        BigDecimal salaryAmount,
+        BigDecimal baseSalary,
         String salaryCurrency
     ) {
         public Command {
             InputValidator.initialize()
-                    .ensure(() -> firstName != null && !firstName.isBlank(), "firstName", "First name is required")
-                    .ensure(() -> lastName != null && !lastName.isBlank(), "lastName", "Last name is required")
-                    .ensure(() -> identifierValue != null && !identifierValue.isBlank(), "identifierValue", "Identifier amount is required")
-                    .ensureEnum(identifierType, NationalIdentifier.IdentifierType.class, "identifierType", "Identifier type must be of a valid type")
+                    .ensure(() -> userId != null && !userId.isBlank(), "userId", "User ID cannot be null or blank")
+                    .ensure(() -> InputValidator.isValidUUID(userId), "userId", "User ID must be a valid UUID")
+                    .ensure(() -> enterpriseEmail != null && !enterpriseEmail.isBlank(), "enterpriseEmail", "Enterprise email is required")
                     .ensureEnumCollection(specialties, MedicalSpecialty.class, "specialties", "All given specialties must be valid")
                     .ensureEnum(contractType, ContractType.class, "contractType", "Contract type must be of a valid type")
                     .ensure(
-                            () -> salaryAmount != null && salaryAmount.compareTo(BigDecimal.ZERO) >= 0,
+                            () -> baseSalary != null && baseSalary.compareTo(BigDecimal.ZERO) >= 0,
                             "salaryAmount", "Salary amount is required and must be positive"
                             )
                     .ensureEnum(salaryCurrency, ValidCurrencies.class, "salaryCurrency", "Salary currency must be a valid currency")
                     .validate();
+        }
+
+        public ValidCurrencies getSalaryCurrency() {
+            return TypeParser.parseEnum(ValidCurrencies.class, this.salaryCurrency);
+        }
+
+        public ContractType getContractType() {
+            return TypeParser.parseEnum(ContractType.class, this.contractType);
+        }
+
+        public Set<MedicalSpecialty> getSpecialties() {
+            return TypeParser.parseEnum(MedicalSpecialty.class, this.specialties);
         }
     }
 
     @RequiredArgsConstructor
     public static class Handler {
         private final DoctorRepository doctorRepository;
+        private final UserRepository userRepository;
 
         public UUID execute(Command command) {
-            HumanName name = new HumanName(command.firstName(), command.lastName());
-
-            NationalIdentifier identifier = new NationalIdentifier(
-                    TypeParser.parseEnum(
-                            NationalIdentifier.IdentifierType.class,
-                            command.identifierType()
-                            ),
-                    command.identifierValue()
-            );
-
-            Set<MedicalSpecialty> specialties = TypeParser.parseEnum(
-                    MedicalSpecialty.class,
-                    command.specialties()
-            );
-
-            ContractType contractType = TypeParser.parseEnum(
-                    ContractType.class,
-                    command.contractType()
-            );
+            UUID userId = TypeParser.parseUuid(command.userId);
+            UserRecord user = userRepository.getById(userId);
 
             Money salary = new Money(
-                    command.salaryAmount(),
-                    TypeParser.parseEnum(
-                            ValidCurrencies.class,
-                            command.salaryCurrency()
-                    )
+                    command.baseSalary(),
+                    command.getSalaryCurrency()
             );
 
-            Doctor doctor = Doctor.hire(
+            Employee employee = Employee.hire(
                     UuidCreator.getTimeOrderedEpoch(),
-                    name,
-                    identifier,
-                    command.medicalLicense(),
-                    specialties,
-                    contractType,
+                    user.id(),
+                    user.name(),
+                    user.identifier(),
+                    command.enterpriseEmail(),
+                    command.getContractType(),
                     salary
+            );
+
+            Doctor doctor = Doctor.make(
+                    employee,
+                    command.medicalLicense(),
+                    command.getSpecialties()
             );
 
             doctorRepository.insert(doctor);
 
-            return doctor.getId();
+            return doctor.getEmploymentDetails().getId();
         }
     }
 }

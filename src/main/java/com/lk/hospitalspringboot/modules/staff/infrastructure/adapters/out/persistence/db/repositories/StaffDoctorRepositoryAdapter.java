@@ -9,7 +9,10 @@ import com.lk.hospitalspringboot.modules.staff.application.services.doctors.Doct
 import com.lk.hospitalspringboot.modules.staff.domain.models.Doctor;
 import com.lk.hospitalspringboot.modules.staff.infrastructure.adapters.in.rest.mappers.DoctorMapper;
 import com.lk.hospitalspringboot.modules.staff.infrastructure.adapters.out.persistence.db.entities.StaffDoctorJpa;
+import com.lk.hospitalspringboot.modules.staff.infrastructure.adapters.out.persistence.db.entities.StaffUserJpa;
 import com.lk.hospitalspringboot.modules.staff.infrastructure.adapters.out.persistence.db.repositories.jpa.StaffDoctorJpaRepository;
+import com.lk.hospitalspringboot.modules.staff.infrastructure.adapters.out.persistence.db.repositories.jpa.StaffUserJpaRepository;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.PageRequest;
@@ -25,7 +28,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class StaffDoctorRepositoryAdapter implements DoctorRepository {
     private final StaffDoctorJpaRepository doctorJpaRepository;
-    private final DoctorMapper doctorMapper;
     private final ApplicationEventPublisher eventPublisher;
 
 

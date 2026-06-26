@@ -14,8 +14,8 @@ public record DoctorSummaryResponse(
 
     public static DoctorSummaryResponse from(Doctor doctor) {
         return new DoctorSummaryResponse(
-                doctor.getId(),
-                doctor.getName().firstName() + " " + doctor.getName().lastName(),
+                doctor.getEmploymentDetails().getId(),
+                doctor.getEmploymentDetails().getName().fullName(),
                 doctor.getSpecialties()
         );
     }

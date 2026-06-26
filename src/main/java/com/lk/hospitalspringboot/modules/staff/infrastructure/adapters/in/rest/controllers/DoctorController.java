@@ -3,9 +3,7 @@ package com.lk.hospitalspringboot.modules.staff.infrastructure.adapters.in.rest.
 import com.lk.hospitalspringboot.modules.shared.application.ports.in.responses.CollectionResponse;
 import com.lk.hospitalspringboot.modules.shared.infrastructure.config.WebMvcConfig;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.AddDoctorSpecialty;
-import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.RegisterDoctor;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.RemoveDoctorSpecialty;
-import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.UpdateDoctorPersonalInfo;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.GetDoctor;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.SearchDoctors;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.responses.DoctorProfileResponse;
@@ -14,12 +12,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,7 +24,6 @@ class DoctorController {
 
     private final SearchDoctors.Handler searchDoctorsHandler;
     private final GetDoctor.Handler getDoctorHandler;
-    private final UpdateDoctorPersonalInfo.Handler updateDoctorPersonalInfoHandler;
     private final AddDoctorSpecialty.Handler addDoctorSpecialtyHandler;
     private final RemoveDoctorSpecialty.Handler removeDoctorSpecialtyHandler;
 
@@ -53,14 +48,6 @@ class DoctorController {
             @PathVariable String id
     ) {
         return ResponseEntity.ok(getDoctorHandler.execute(id));
-    }
-
-    @PutMapping("/{id}/personal-info")
-    public ResponseEntity<DoctorProfileResponse> updatePersonalInfo(
-            @PathVariable String id,
-            @RequestBody UpdateDoctorPersonalInfo.Command command
-    ) {
-        return ResponseEntity.ok(updateDoctorPersonalInfoHandler.execute(id, command));
     }
 
     @PostMapping("/{id}/specialties")

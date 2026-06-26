@@ -2,13 +2,11 @@ package com.lk.hospitalspringboot.modules.staff.infrastructure.adapters.in.rest.
 
 import com.lk.hospitalspringboot.modules.shared.infrastructure.config.WebMvcConfig;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.RegisterDoctor;
-import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.UpdateDoctorPersonalInfo;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.UpdateDoctorSalary;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.GetDoctorAdmin;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.responses.DoctorAdminResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 

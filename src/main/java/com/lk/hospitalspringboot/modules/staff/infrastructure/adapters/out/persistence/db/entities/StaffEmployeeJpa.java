@@ -18,16 +18,41 @@ import java.util.UUID;
 
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "employees")
 public class StaffEmployeeJpa {
+
+    private StaffEmployeeJpa(
+            UUID id,
+            UUID userId,
+            String enterpriseEmail,
+            LocalDate hireDate,
+            LocalDate terminationDate,
+            ContractType contractType,
+            BigDecimal baseSalary,
+            ValidCurrencies salaryCurrency,
+            EmployeeStatus status
+    ) {
+        this.id = id;
+        this.userId = userId;
+        this.enterpriseEmail = enterpriseEmail;
+        this.hireDate = hireDate;
+        this.terminationDate = terminationDate;
+        this.contractType = contractType;
+        this.baseSalary = baseSalary;
+        this.salaryCurrency = salaryCurrency;
+        this.status = status;
+    }
+
     @Id
     @Column(name = "id", nullable = false)
     private UUID id;
 
+    @Column(name = "user_id", nullable = false)
+    private UUID userId;
+
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private StaffUserJpa user;
 
     @Column(name = "enterprise_email", nullable = false)
@@ -57,6 +82,7 @@ public class StaffEmployeeJpa {
     public Employee toDomain() {
         return new Employee(
             this.id,
+            this.user.getId(),
             new HumanName(
                     this.user.getFirstName(),
                     this.user.getLastName()
@@ -77,10 +103,10 @@ public class StaffEmployeeJpa {
         );
     }
 
-    public static StaffEmployeeJpa from(Employee employee, StaffUserJpa user) {
+    public static StaffEmployeeJpa from(Employee employee) {
         return new StaffEmployeeJpa(
             employee.getId(),
-            user,
+            employee.getUserId(),
             employee.getEnterpriseEmail(),
             employee.getHireDate(),
             employee.getTerminationDate(),
