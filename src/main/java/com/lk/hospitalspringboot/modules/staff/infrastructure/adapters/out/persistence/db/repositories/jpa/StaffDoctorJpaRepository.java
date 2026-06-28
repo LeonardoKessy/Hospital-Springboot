@@ -16,10 +16,13 @@ import java.util.UUID;
 public interface StaffDoctorJpaRepository extends JpaRepository<StaffDoctorJpa, UUID> {
 
     @Query(
-            "SELECT d FROM StaffDoctorJpa d WHERE " +
+            "SELECT d FROM StaffDoctorJpa d " +
+                    "LEFT JOIN FETCH d.employee e " +
+                    "LEFT JOIN FETCH e.user u " +
+                    "WHERE " +
                     "((:name IS NULL OR " +
-                    "d.firstName ILIKE CONCAT('%', :name, '%') OR " +
-                    "d.lastName ILIKE CONCAT('%', :name, '%')) AND " +
+                    "u.firstName ILIKE CONCAT('%', :name, '%') OR " +
+                    "u.lastName ILIKE CONCAT('%', :name, '%')) AND " +
                     "(:specialty IS NULL OR " +
                     "EXISTS (SELECT s FROM d.specialties s WHERE s = :specialty)))"
     )

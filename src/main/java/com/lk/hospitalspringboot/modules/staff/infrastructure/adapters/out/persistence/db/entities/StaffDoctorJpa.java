@@ -58,7 +58,7 @@ public class StaffDoctorJpa {
 
     public static StaffDoctorJpa fromDomain(Doctor dr) {
         return new StaffDoctorJpa(
-                dr.getEmploymentDetails().getId(),
+                null,
                 StaffEmployeeJpa.from(dr.getEmploymentDetails()),
                 dr.getMedicalLicense(),
                 dr.getSpecialties()

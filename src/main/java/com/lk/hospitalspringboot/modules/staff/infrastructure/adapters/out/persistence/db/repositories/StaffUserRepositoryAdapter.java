@@ -7,12 +7,14 @@ import com.lk.hospitalspringboot.modules.staff.domain.valueobjects.UserRecord;
 import com.lk.hospitalspringboot.modules.staff.infrastructure.adapters.out.persistence.db.entities.StaffUserJpa;
 import com.lk.hospitalspringboot.modules.staff.infrastructure.adapters.out.persistence.db.repositories.jpa.StaffUserJpaRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 import java.util.UUID;
 
+@Component
 @RequiredArgsConstructor
-public class StaffUserRepository implements UserRepository {
+public class StaffUserRepositoryAdapter implements UserRepository {
     private final StaffUserJpaRepository staffUserJpaRepository;
 
     public UserRecord getById(UUID id) {

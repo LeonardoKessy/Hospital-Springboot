@@ -61,7 +61,7 @@ public class StaffEmployeeJpa {
     @Column(name = "hire_date", nullable = false)
     private LocalDate hireDate;
 
-    @Column(name = "termination_date", nullable = false)
+    @Column(name = "termination_date")
     private LocalDate terminationDate;
 
     @Column(name = "contract_type", nullable = false)

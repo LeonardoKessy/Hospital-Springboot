@@ -3,16 +3,10 @@ package com.lk.hospitalspringboot.modules.staff.infrastructure.adapters.out.pers
 import com.lk.hospitalspringboot.modules.shared.domain.enums.ResourceType;
 import com.lk.hospitalspringboot.modules.shared.domain.exceptions.ResourceNotFoundException;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.SearchDoctors;
-import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.responses.DoctorProfileResponse;
-import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.responses.DoctorSummaryResponse;
 import com.lk.hospitalspringboot.modules.staff.application.services.doctors.DoctorRepository;
 import com.lk.hospitalspringboot.modules.staff.domain.models.Doctor;
-import com.lk.hospitalspringboot.modules.staff.infrastructure.adapters.in.rest.mappers.DoctorMapper;
 import com.lk.hospitalspringboot.modules.staff.infrastructure.adapters.out.persistence.db.entities.StaffDoctorJpa;
-import com.lk.hospitalspringboot.modules.staff.infrastructure.adapters.out.persistence.db.entities.StaffUserJpa;
 import com.lk.hospitalspringboot.modules.staff.infrastructure.adapters.out.persistence.db.repositories.jpa.StaffDoctorJpaRepository;
-import com.lk.hospitalspringboot.modules.staff.infrastructure.adapters.out.persistence.db.repositories.jpa.StaffUserJpaRepository;
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.PageRequest;
@@ -21,7 +15,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Component
