@@ -14,9 +14,9 @@ import java.net.URI;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/staff")
 @RequiredArgsConstructor
-class AdminController {
+class StaffController {
 
     private final RegisterDoctor.Handler registerDoctorHandler;
     private final GetDoctorAdmin.Handler getDoctorAdminHandler;
@@ -45,7 +45,7 @@ class AdminController {
         return ResponseEntity.ok(getDoctorAdminHandler.execute(id));
     }
 
-    @PutMapping("/doctors/{id}/salary")
+    @PutMapping("/{id}/salary")
     public ResponseEntity<DoctorAdminResponse> updateSalary(
             @PathVariable String id,
             @RequestBody UpdateDoctorSalary.Command command
