@@ -1,18 +1,17 @@
-package com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands;
+package com.lk.hospitalspringboot.modules.staff.application.ports.in.employees.commands;
 
 import com.lk.hospitalspringboot.modules.shared.domain.enums.ValidCurrencies;
 import com.lk.hospitalspringboot.modules.shared.domain.utils.InputValidator;
 import com.lk.hospitalspringboot.modules.shared.domain.utils.TypeParser;
 import com.lk.hospitalspringboot.modules.shared.domain.valueobjects.Money;
-import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.responses.DoctorAdminResponse;
-import com.lk.hospitalspringboot.modules.staff.application.services.doctors.DoctorRepository;
-import com.lk.hospitalspringboot.modules.staff.domain.models.Doctor;
+import com.lk.hospitalspringboot.modules.staff.application.services.doctors.EmployeeRepository;
+import com.lk.hospitalspringboot.modules.staff.domain.models.Employee;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
-public class UpdateDoctorSalary {
+public class UpdateEmployeeSalary {
 
     public record Command (
             BigDecimal amount,
@@ -33,17 +32,15 @@ public class UpdateDoctorSalary {
 
     @RequiredArgsConstructor
     public static class Handler {
-        private final DoctorRepository doctorRepository;
+        private final EmployeeRepository employeeRepository;
 
-        public DoctorAdminResponse execute(String idStr, Command command) {
-            UUID id = TypeParser.parseUuid(idStr);
+        public void execute(String idStr, Command command) {
+            UUID id = TypeParser.parseUUID(idStr);
             Money money = command.money();
 
-            Doctor doctor = doctorRepository.getById(id);
-            doctor.getEmploymentDetails().setSalary(money);
-            doctorRepository.save(doctor);
-
-            return DoctorAdminResponse.from(doctor);
+            Employee employee = employeeRepository.findById(id);
+            employee.setSalary(money);
+            employeeRepository.save(employee);
         }
     }
 }

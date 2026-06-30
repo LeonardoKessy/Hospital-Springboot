@@ -3,8 +3,10 @@ package com.lk.hospitalspringboot.modules.staff.infrastructure.config;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.AddDoctorSpecialty;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.RegisterDoctor;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.RemoveDoctorSpecialty;
-import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.UpdateDoctorSalary;
+import com.lk.hospitalspringboot.modules.staff.application.ports.in.employees.commands.UpdateEmployeeContract;
+import com.lk.hospitalspringboot.modules.staff.application.ports.in.employees.commands.UpdateEmployeeSalary;
 import com.lk.hospitalspringboot.modules.staff.application.services.doctors.DoctorRepository;
+import com.lk.hospitalspringboot.modules.staff.application.services.doctors.EmployeeRepository;
 import com.lk.hospitalspringboot.modules.staff.application.services.doctors.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,7 +35,13 @@ public class CommandsConfig {
 
     @Bean
     @Transactional
-    public UpdateDoctorSalary.Handler updateDoctorSalaryHandler(DoctorRepository doctorRepository) {
-        return new UpdateDoctorSalary.Handler(doctorRepository);
+    public UpdateEmployeeSalary.Handler updateDoctorSalaryHandler(EmployeeRepository employeeRepository) {
+        return new UpdateEmployeeSalary.Handler(employeeRepository);
+    }
+
+    @Bean
+    @Transactional
+    public UpdateEmployeeContract.Handler  updateEmployeeContractHandler(EmployeeRepository employeeRepository) {
+        return new UpdateEmployeeContract.Handler(employeeRepository);
     }
 }

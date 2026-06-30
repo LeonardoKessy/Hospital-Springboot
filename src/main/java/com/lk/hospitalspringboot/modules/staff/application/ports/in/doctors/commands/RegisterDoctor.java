@@ -6,7 +6,6 @@ import com.lk.hospitalspringboot.modules.shared.domain.enums.ValidCurrencies;
 import com.lk.hospitalspringboot.modules.shared.domain.utils.InputValidator;
 import com.lk.hospitalspringboot.modules.shared.domain.utils.TypeParser;
 import com.lk.hospitalspringboot.modules.shared.domain.valueobjects.Money;
-import com.lk.hospitalspringboot.modules.shared.domain.valueobjects.NationalIdentifier;
 import com.lk.hospitalspringboot.modules.staff.application.services.doctors.DoctorRepository;
 import com.lk.hospitalspringboot.modules.staff.application.services.doctors.UserRepository;
 import com.lk.hospitalspringboot.modules.staff.domain.enums.ContractType;
@@ -64,7 +63,7 @@ public class RegisterDoctor {
         private final UserRepository userRepository;
 
         public UUID execute(Command command) {
-            UUID userId = TypeParser.parseUuid(command.userId);
+            UUID userId = TypeParser.parseUUID(command.userId);
             UserRecord user = userRepository.getById(userId);
 
             Money salary = new Money(

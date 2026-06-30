@@ -2,7 +2,8 @@ package com.lk.hospitalspringboot.modules.staff.infrastructure.adapters.in.rest.
 
 import com.lk.hospitalspringboot.modules.shared.infrastructure.config.WebMvcConfig;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.RegisterDoctor;
-import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.UpdateDoctorSalary;
+import com.lk.hospitalspringboot.modules.staff.application.ports.in.employees.commands.UpdateEmployeeContract;
+import com.lk.hospitalspringboot.modules.staff.application.ports.in.employees.commands.UpdateEmployeeSalary;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.GetDoctorAdmin;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.queries.responses.DoctorAdminResponse;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,8 @@ class StaffController {
 
     private final RegisterDoctor.Handler registerDoctorHandler;
     private final GetDoctorAdmin.Handler getDoctorAdminHandler;
-    private final UpdateDoctorSalary.Handler updateDoctorSalaryHandler;
+    private final UpdateEmployeeSalary.Handler updateDoctorSalaryHandler;
+    private final UpdateEmployeeContract.Handler updateEmployeeContractHandler;
 
     @PostMapping("/doctors")
     public ResponseEntity<Void> insert(
@@ -46,10 +48,20 @@ class StaffController {
     }
 
     @PutMapping("/{id}/salary")
-    public ResponseEntity<DoctorAdminResponse> updateSalary(
+    public ResponseEntity<Void> updateSalary(
             @PathVariable String id,
-            @RequestBody UpdateDoctorSalary.Command command
+            @RequestBody UpdateEmployeeSalary.Command command
     ) {
-        return ResponseEntity.ok(updateDoctorSalaryHandler.execute(id, command));
+        updateDoctorSalaryHandler.execute(id, command);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}/contract")
+    public ResponseEntity<Void> updateContract(
+            @PathVariable String id,
+            @RequestBody UpdateEmployeeContract.Command command
+    ) {
+        updateEmployeeContractHandler.execute(id, command);
+        return ResponseEntity.ok().build();
     }
 }

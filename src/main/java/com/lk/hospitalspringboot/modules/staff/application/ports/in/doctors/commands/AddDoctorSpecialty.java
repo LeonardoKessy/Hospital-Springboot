@@ -28,7 +28,7 @@ public class AddDoctorSpecialty {
         private final DoctorRepository doctorRepository;
 
         public UUID execute(String idStr, Command command) {
-            UUID id = TypeParser.parseUuid(idStr);
+            UUID id = TypeParser.parseUUID(idStr);
             MedicalSpecialty specialty = command.medicalSpecialty();
 
             Doctor doctor = doctorRepository.getById(id);

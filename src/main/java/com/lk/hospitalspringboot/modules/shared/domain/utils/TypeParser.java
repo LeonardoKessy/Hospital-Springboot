@@ -1,6 +1,5 @@
 package com.lk.hospitalspringboot.modules.shared.domain.utils;
 
-import com.lk.hospitalspringboot.modules.shared.domain.exceptions.InputValidationException;
 import com.lk.hospitalspringboot.modules.shared.domain.exceptions.InvalidTypeConversionException;
 
 import java.util.Collection;
@@ -33,7 +32,7 @@ public final class TypeParser {
         }
     }
 
-    public static UUID parseUuid(String uuid) {
+    public static UUID parseUUID(String uuid) {
         if (uuid == null || uuid.isBlank()) return null;
         try  {
             return UUID.fromString(uuid);

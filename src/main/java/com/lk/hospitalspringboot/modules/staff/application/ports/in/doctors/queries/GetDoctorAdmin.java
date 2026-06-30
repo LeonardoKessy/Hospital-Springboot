@@ -15,7 +15,7 @@ public class GetDoctorAdmin {
         private final DoctorRepository doctorRepository;
 
         public DoctorAdminResponse execute(String idStr) {
-            UUID id = TypeParser.parseUuid(idStr);
+            UUID id = TypeParser.parseUUID(idStr);
 
             Doctor doctor = doctorRepository.getById(id);
             return DoctorAdminResponse.from(doctor);
