@@ -33,7 +33,7 @@ class StaffController {
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentContextPath()
                 .path(WebMvcConfig.BASE_PATH)
-                .path("/{id}")
+                .path("/doctors/{id}")
                 .buildAndExpand(id)
                 .toUri();
 

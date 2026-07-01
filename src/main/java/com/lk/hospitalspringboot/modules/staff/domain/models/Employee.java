@@ -82,6 +82,10 @@ public class Employee {
          );
     }
 
+    public boolean canWork() {
+         return !(this.status == EmployeeStatus.TERMINATED);
+    }
+
     public void setContractType(ContractType contractType) {
         this.contractType = Objects.requireNonNull(contractType, "Contract type must not be null");
     }

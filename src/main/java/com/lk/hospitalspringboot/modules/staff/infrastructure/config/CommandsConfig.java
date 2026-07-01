@@ -3,8 +3,7 @@ package com.lk.hospitalspringboot.modules.staff.infrastructure.config;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.AddDoctorSpecialty;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.RegisterDoctor;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.RemoveDoctorSpecialty;
-import com.lk.hospitalspringboot.modules.staff.application.ports.in.employees.commands.UpdateEmployeeContract;
-import com.lk.hospitalspringboot.modules.staff.application.ports.in.employees.commands.UpdateEmployeeSalary;
+import com.lk.hospitalspringboot.modules.staff.application.ports.in.employees.commands.*;
 import com.lk.hospitalspringboot.modules.staff.application.services.doctors.DoctorRepository;
 import com.lk.hospitalspringboot.modules.staff.application.services.doctors.EmployeeRepository;
 import com.lk.hospitalspringboot.modules.staff.application.services.doctors.UserRepository;
@@ -43,5 +42,23 @@ public class CommandsConfig {
     @Transactional
     public UpdateEmployeeContract.Handler  updateEmployeeContractHandler(EmployeeRepository employeeRepository) {
         return new UpdateEmployeeContract.Handler(employeeRepository);
+    }
+
+    @Bean
+    @Transactional
+    public SuspendEmployee.Handler suspendEmployeeHandler(EmployeeRepository employeeRepository) {
+        return new SuspendEmployee.Handler(employeeRepository);
+    }
+
+    @Bean
+    @Transactional
+    public TerminateEmployee.Handler terminateEmployeeHandler(EmployeeRepository employeeRepository) {
+        return new TerminateEmployee.Handler(employeeRepository);
+    }
+
+    @Bean
+    @Transactional
+    public GrantEmployeeVacation.Handler grantEmployeeVacationHandler(EmployeeRepository employeeRepository) {
+        return new GrantEmployeeVacation.Handler(employeeRepository);
     }
 }
