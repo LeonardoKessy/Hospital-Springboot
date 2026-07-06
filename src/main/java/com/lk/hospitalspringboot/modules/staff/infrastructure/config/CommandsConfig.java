@@ -1,5 +1,6 @@
 package com.lk.hospitalspringboot.modules.staff.infrastructure.config;
 
+import com.lk.hospitalspringboot.modules.shared.application.ports.out.EventPublisherPort;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.AddDoctorSpecialty;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.RegisterDoctor;
 import com.lk.hospitalspringboot.modules.staff.application.ports.in.doctors.commands.RemoveDoctorSpecialty;
@@ -46,19 +47,19 @@ public class CommandsConfig {
 
     @Bean
     @Transactional
-    public SuspendEmployee.Handler suspendEmployeeHandler(EmployeeRepository employeeRepository) {
-        return new SuspendEmployee.Handler(employeeRepository);
+    public SuspendEmployee.Handler suspendEmployeeHandler(EmployeeRepository employeeRepository, EventPublisherPort  eventPublisherPort) {
+        return new SuspendEmployee.Handler(employeeRepository, eventPublisherPort);
     }
 
     @Bean
     @Transactional
-    public TerminateEmployee.Handler terminateEmployeeHandler(EmployeeRepository employeeRepository) {
-        return new TerminateEmployee.Handler(employeeRepository);
+    public TerminateEmployee.Handler terminateEmployeeHandler(EmployeeRepository employeeRepository, EventPublisherPort eventPublisherPort) {
+        return new TerminateEmployee.Handler(employeeRepository, eventPublisherPort);
     }
 
     @Bean
     @Transactional
-    public GrantEmployeeVacation.Handler grantEmployeeVacationHandler(EmployeeRepository employeeRepository) {
-        return new GrantEmployeeVacation.Handler(employeeRepository);
+    public GrantEmployeeVacation.Handler grantEmployeeVacationHandler(EmployeeRepository employeeRepository, EventPublisherPort eventPublisherPort) {
+        return new GrantEmployeeVacation.Handler(employeeRepository, eventPublisherPort);
     }
 }

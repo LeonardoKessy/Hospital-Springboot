@@ -1,8 +1,11 @@
 package com.lk.hospitalspringboot.modules.staff.application.ports.in.employees.commands;
 
+import com.lk.hospitalspringboot.modules.shared.application.ports.out.EventPublisherPort;
+import com.lk.hospitalspringboot.modules.shared.domain.enums.EmployeeStatus;
 import com.lk.hospitalspringboot.modules.shared.domain.exceptions.InputValidationException;
 import com.lk.hospitalspringboot.modules.shared.domain.utils.TypeParser;
 import com.lk.hospitalspringboot.modules.staff.application.services.doctors.EmployeeRepository;
+import com.lk.hospitalspringboot.modules.staff.domain.events.EmployeeStatusChangedEvent;
 import com.lk.hospitalspringboot.modules.staff.domain.models.Employee;
 import lombok.RequiredArgsConstructor;
 
@@ -23,12 +26,22 @@ public class TerminateEmployee {
     @RequiredArgsConstructor
     public static class Handler {
         private final EmployeeRepository employeeRepository;
+        private final EventPublisherPort eventPublisher;
 
         public void execute(String idStr, Command command) {
             UUID id = TypeParser.parseUUID(idStr);
 
             Employee employee = employeeRepository.findById(id);
+
+            EmployeeStatus oldStatus = employee.getStatus();
+
             employee.terminate();
+
+            eventPublisher.publish(new EmployeeStatusChangedEvent(
+                    employee.getId(),
+                    oldStatus,
+                    employee.getStatus()
+            ));
 
             // TODO: Add incident report.
         }
