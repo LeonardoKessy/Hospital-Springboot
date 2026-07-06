@@ -6,11 +6,13 @@ import lombok.Getter;
 @Getter
 public class ResourceNotFoundException extends RuntimeException {
     private final ResourceType resourceType;
-    private final Object resourceId;
+    private final Object resourceIdentifier;
+    private final String code = "RESOURCE_NOT_FOUND";
+
 
     public ResourceNotFoundException(ResourceType resourceType, Object resourceId) {
-        super(String.format("%s with id %s not found", resourceType.toString(), resourceId.toString()));
+        super(String.format("%s with field %s not found", resourceType.toString(), resourceId.toString()));
         this.resourceType = resourceType;
-        this.resourceId = resourceId;
+        this.resourceIdentifier = resourceId;
     }
 }

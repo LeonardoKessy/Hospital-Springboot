@@ -1,0 +1,30 @@
+package com.lk.hospitalspringboot.modules.shared.domain.enums;
+
+public enum ValidCurrencies {
+    ARS,
+    AUD,
+    BRL,
+    CAD,
+    CHF,
+    CNY,
+    EUR,
+    GBP,
+    HKD,
+    HUF,
+    INR,
+    JPY,
+    KRW,
+    MXN,
+    NOK,
+    NZD,
+    PHP,
+    PLN,
+    RON,
+    RUB,
+    SEK,
+    SGD,
+    THB,
+    TRY,
+    USD,
+    ZAR
+}
